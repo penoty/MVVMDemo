@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong, readonly) UIImage *icon;
 @property (nonatomic, strong, readonly) NSString *title;
-@property (nonatomic, strong, readonly) NSString *content;
+@property (nonatomic, strong) NSString *content;
 
 @property (nonatomic, strong) NSNumber *needUpdateUI;
 

@@ -27,7 +27,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"home_cell" forIndexPath:indexPath];
+    __block NSNumber *index = @(indexPath.row);
+    @weakify(self);
     [cell bindingViewModel:_dataSource[indexPath.row]];
+    [cell.textView.rac_textSignal subscribeNext:^(NSString * _Nullable text) {
+        @strongify(self);
+        HomeCellViewModel *model = self.dataSource[[index integerValue]];
+        model.content = text;
+    }];
     return cell;
 }
 

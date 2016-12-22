@@ -50,8 +50,8 @@
         }
     ];
     _resultSignal = [_viewModel rac_valuesAndChangesForKeyPath:@keypath(_viewModel, resultArray)
-                                                 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
-                                                observer:self];
+                                                       options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+                                                      observer:self];
     [[_resultSignal
         filter:^BOOL(RACTuple *  _Nullable tuple) {
             NSDictionary *changes = tuple.second;
