@@ -11,6 +11,6 @@
 
 @interface HomeTableViewDelegateAndDataSource : NSObject <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, weak) NSArray *dataSource;
 
 @end

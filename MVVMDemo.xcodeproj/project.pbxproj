@@ -18,7 +18,7 @@
 		462189791D87D79F0049FB4A /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 462189781D87D79F0049FB4A /* HomeViewController.m */; };
 		4621897C1D87D8150049FB4A /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4621897B1D87D8150049FB4A /* HomeCell.m */; };
 		4621897F1D87D9720049FB4A /* HomeViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4621897E1D87D9720049FB4A /* HomeViewModel.m */; };
-		462189821D87D9900049FB4A /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 462189811D87D9900049FB4A /* HomeModel.m */; };
+		BDF8372E1E03D61200D671E0 /* HomeCellViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BDF8372D1E03D61200D671E0 /* HomeCellViewModel.m */; };
 		F1582E29331C85FC141498A1 /* libPods-MVVMDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FEF3986F297E15D7C617040 /* libPods-MVVMDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -43,10 +43,10 @@
 		4621897B1D87D8150049FB4A /* HomeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCell.m; sourceTree = "<group>"; };
 		4621897D1D87D9720049FB4A /* HomeViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewModel.h; sourceTree = "<group>"; };
 		4621897E1D87D9720049FB4A /* HomeViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewModel.m; sourceTree = "<group>"; };
-		462189801D87D9900049FB4A /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
-		462189811D87D9900049FB4A /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		7FEF3986F297E15D7C617040 /* libPods-MVVMDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MVVMDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133A016F7C9E6FC078CBF4F /* Pods-MVVMDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVMDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MVVMDemo/Pods-MVVMDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		BDF8372C1E03D61200D671E0 /* HomeCellViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCellViewModel.h; sourceTree = "<group>"; };
+		BDF8372D1E03D61200D671E0 /* HomeCellViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCellViewModel.m; sourceTree = "<group>"; };
 		E452B5377C0A8F6043CF8C33 /* Pods-MVVMDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MVVMDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MVVMDemo/Pods-MVVMDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,6 +133,8 @@
 			children = (
 				4621897D1D87D9720049FB4A /* HomeViewModel.h */,
 				4621897E1D87D9720049FB4A /* HomeViewModel.m */,
+				BDF8372C1E03D61200D671E0 /* HomeCellViewModel.h */,
+				BDF8372D1E03D61200D671E0 /* HomeCellViewModel.m */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -141,8 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				462189731D87D7540049FB4A /* BaseModel */,
-				462189801D87D9900049FB4A /* HomeModel.h */,
-				462189811D87D9900049FB4A /* HomeModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -254,7 +254,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B7E7B93D0E0860C7432DE814 /* [CP] Embed Pods Frameworks */ = {
@@ -294,13 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				462189821D87D9900049FB4A /* HomeModel.m in Sources */,
 				462189601D87D66F0049FB4A /* ViewController.m in Sources */,
 				461061211D88ED1400CDB3FC /* HomeTableViewDelegateAndDataSource.m in Sources */,
 				4621895D1D87D66F0049FB4A /* AppDelegate.m in Sources */,
 				4621897F1D87D9720049FB4A /* HomeViewModel.m in Sources */,
 				462189761D87D75E0049FB4A /* BaseModel.m in Sources */,
 				4621897C1D87D8150049FB4A /* HomeCell.m in Sources */,
+				BDF8372E1E03D61200D671E0 /* HomeCellViewModel.m in Sources */,
 				462189791D87D79F0049FB4A /* HomeViewController.m in Sources */,
 				4621895A1D87D66F0049FB4A /* main.m in Sources */,
 			);

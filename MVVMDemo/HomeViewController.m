@@ -11,6 +11,8 @@
 #import "HomeCell.h"
 #import "HomeTableViewDelegateAndDataSource.h"
 #import "Masonry.h"
+#import "ReactiveObjc.h"
+
 
 @interface HomeViewController () {
     
@@ -18,31 +20,62 @@
 
 @property (nonatomic, strong) HomeViewModel *viewModel;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) RACSignal *resultSignal;
 @property (nonatomic, strong) HomeTableViewDelegateAndDataSource *tableViewDelegateAndDataSource;
 
 @end
 
 @implementation HomeViewController
 
+- (instancetype)initWithViewModel:(HomeViewModel *)viewModel {
+    self = [super init];
+    if (self) {
+        _viewModel = viewModel;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-    [self addListeners];
     [self initTableView];
-    [self initViewModel];
-    
+    [self initSignals];
 }
 
 #pragma mark - init methods
-- (void)initViewModel {
+- (void)initSignals {
+    @weakify(self);
+    [[self rac_signalForSelector:@selector(viewWillAppear:)]
+        subscribeNext:^(id  _Nullable x) {
+            [_viewModel requestFakeData];
+        }
+    ];
+    _resultSignal = [_viewModel rac_valuesAndChangesForKeyPath:@keypath(_viewModel, resultArray)
+                                                 options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+                                                observer:self];
+    [[_resultSignal
+        filter:^BOOL(RACTuple *  _Nullable tuple) {
+            NSDictionary *changes = tuple.second;
+            return changes[NSKeyValueChangeNewKey] ? YES : NO;
+        }]
+        subscribeNext:^(RACTuple *  _Nullable tuple) {
+            @strongify(self);
+            _tableViewDelegateAndDataSource.dataSource = _viewModel.resultArray;
+            [self updateUI];
+        }
+    ];
     
-    _viewModel = [[HomeViewModel alloc] initWithTarget:self];
-    [_viewModel requestFakeData];
-    
+    [[RACObserve(_viewModel, needUpdateUI)
+        filter:^BOOL(NSNumber *  _Nullable value) {
+            return [value boolValue];
+        }]
+        subscribeNext:^(id  _Nullable x) {
+            @strongify(self);
+            [self updateUI];
+        }
+    ];
 }
 
 - (void)initTableView {
-    
     _tableView = [[UITableView alloc] init];
     _tableViewDelegateAndDataSource = [[HomeTableViewDelegateAndDataSource alloc] init];
     [_tableView registerClass:[HomeCell class] forCellReuseIdentifier:@"home_cell"];
@@ -51,32 +84,12 @@
     
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-       
         make.edges.equalTo(self.view);
-        
     }];
-    
 }
-
-- (void)addListeners {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(modelDidUpdate:) name:@"ModelUpdate" object:nil];
-    
-}
-
-#pragma mark - observer
-- (void)modelDidUpdate:(NSNotification *)notification {
-    
-    _tableViewDelegateAndDataSource.dataSource = _viewModel.modelArray;
-    [self updateUI];
-    
-}
-
 
 - (void)updateUI {
-    
     [_tableView reloadData];
-
 }
 
 @end

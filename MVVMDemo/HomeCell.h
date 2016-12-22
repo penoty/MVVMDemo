@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HomeModel.h"
+#import "HomeCellViewModel.h"
 
 @interface HomeCell : UITableViewCell
 
@@ -15,6 +15,6 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITextView *textView;
 
-- (void)updateModel:(HomeModel *)model;
+- (void)bindingViewModel:(HomeCellViewModel *)model;
 
 @end

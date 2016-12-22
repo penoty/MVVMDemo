@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "HomeModel.h"
+#import "HomeCellViewModel.h"
+#import "BaseModel.h"
 
 @interface HomeViewModel : NSObject
 
-@property (nonatomic, strong) NSMutableArray *modelArray;
+@property (nonatomic, strong) NSArray *resultArray;
+@property (nonatomic, strong) NSNumber *needUpdateUI;
 
-- (instancetype)initWithTarget:(id)target;
 - (void)requestFakeData;
 
 @end

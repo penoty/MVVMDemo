@@ -12,7 +12,6 @@
 
 #pragma mark - init methods
 - (instancetype)initModelWithData:(id)data {
-    
     self = [super init];
     if (self) {
         NSDictionary *_data = nil;
@@ -24,26 +23,20 @@
         [self assignModelWithData:_data];
     }
     return self;
-    
 }
 
 + (instancetype)modelWithData:(NSDictionary *)data {
-    
     BaseModel *baseModel = [[BaseModel alloc] initModelWithData:data];
     return baseModel;
-    
 }
 
 #pragma mark - model mapping
 + (NSDictionary *)mappingModel {
-    
     return nil;
-    
 }
 
 #pragma mark - model assignment
 - (void)assignModelWithData:(NSDictionary *)data {
-    
     if (!data) { return; }
     NSDictionary *mappingModel = [[self class] mappingModel];
     unsigned int outCount;
@@ -59,18 +52,14 @@
         }
     }
     free(propertyArray);
-    
 }
 
 - (NSString *)firstLetterCapitalize:(NSString *)str {
-    
     return [[[str substringWithRange:NSMakeRange(0, 1)] uppercaseString] stringByAppendingString:[str substringFromIndex:1]];
-
 }
 
 #pragma mark -json 解析
 -(NSDictionary*)getParseJsonToDic:(id)resultData {
-    
     NSData *data = nil;
     if ([resultData isKindOfClass:[NSString class]]) {
         data= [resultData dataUsingEncoding:NSUTF8StringEncoding];
@@ -81,7 +70,6 @@
     NSError *error = nil;
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     return jsonObject;
-    
 }
 
 

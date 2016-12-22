@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomeViewModel.h"
+#import "ReactiveObjC.h"
 
 @interface HomeViewController : UIViewController
+
+- (instancetype)initWithViewModel:(HomeViewModel *)viewModel;
 
 @end

@@ -7,24 +7,12 @@
 //
 
 #import "HomeViewModel.h"
+#import "HomeCellViewModel.h"
 static const NSString *kIconUrl = @"http://imgsrc.baidu.com/forum/w%3D580/sign=84badcabf1d3572c66e29cd4ba126352/4f4c9e3df8dcd10034ca7363718b4710b8122fad.jpg";
 
 @implementation HomeViewModel
 
-- (instancetype)initWithTarget:(id)target {
-    
-    self = [super init];
-    if (self) {
-        
-        _modelArray = @[].mutableCopy;
-        
-    }
-    return self;
-    
-}
-
 - (void)requestFakeData {
-    
     NSArray *fakeDataArray = @[
                               @{@"url": kIconUrl,
                                 @"title": @"title_1",
@@ -39,15 +27,19 @@ static const NSString *kIconUrl = @"http://imgsrc.baidu.com/forum/w%3D580/sign=8
                                 @"content": @"content_3..."
                                 }
                               ];
+    NSMutableArray *tempArray = @[].mutableCopy;
     for (id fakeData in fakeDataArray) {
-        
-        HomeModel *model = [[HomeModel alloc] initModelWithData:fakeData];
-        [self.modelArray addObject:model];
-        
+        HomeCellViewModel *cellViewModel = [[HomeCellViewModel alloc] initWithData:fakeData];
+        [[RACObserve(cellViewModel, needUpdateUI)
+             filter:^BOOL(NSNumber *value) {
+                 return [value boolValue];
+             }]
+             subscribeNext:^(id  _Nullable x) {
+                 self.needUpdateUI = @YES;
+             }];
+        [tempArray addObject:cellViewModel];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ModelUpdate" object:nil];
-    
+    [self setResultArray:tempArray];
 }
 
 @end

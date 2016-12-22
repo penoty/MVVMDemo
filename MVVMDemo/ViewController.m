@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "HomeViewController.h"
+#import "HomeViewModel.h"
 
 @interface ViewController ()
 
@@ -22,7 +23,7 @@
     [mainWindow setTintColor:[UIColor whiteColor]];
     [[[UIApplication sharedApplication] delegate] setWindow:mainWindow];
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] init]];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[HomeViewController alloc] initWithViewModel:[[HomeViewModel alloc] init]]];
     [mainWindow setRootViewController:navigationController];
     [mainWindow makeKeyAndVisible];
 
